@@ -1,239 +1,239 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagnóstico Pet Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos Gerais Premium */
-        body {
-            font-family: 'Poppins', sans-serif;
-            /* Degradê de fundo moderno */
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #333;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            width: 100%;
-            max-width: 480px;
-            padding: 35px 25px;
-            border-radius: 30px;
-            /* Sombra suave e profunda */
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Barra de Progresso Estilosa */
-        .progress-container {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 50px;
-            margin-bottom: 35px;
-            height: 12px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .progress-bar {
-            height: 100%;
-            width: 10%;
-            /* Degradê na barra */
-            background: linear-gradient(90deg, #00b09b, #96c93d);
-            border-radius: 50px;
-            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Saúde Canina</title>
 
-        /* Títulos e Textos */
-        h1 { 
-            color: #2c3e50; 
-            font-size: 26px; 
-            font-weight: 700;
-            margin-bottom: 15px; 
-            line-height: 1.3; 
-        }
-        p { color: #666; font-size: 17px; margin-bottom: 30px; line-height: 1.6; }
+<style>
+:root {
+  --green: #2e7d32;
+  --light-green: #e8f5e9;
+  --orange: #ff9800;
+  --dark: #333;
+  --gray: #777;
+}
 
-        /* Botões das Perguntas (Upgrade!) */
-        .btn-option {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 18px 25px;
-            margin: 15px 0;
-            background: #fff;
-            border: 2px solid #eee;
-            border-radius: 15px;
-            font-size: 18px;
-            color: #444;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-align: left;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            font-family: 'Poppins', sans-serif;
-        }
-        .btn-option span { margin-right: 15px; font-size: 24px; }
-        .btn-option:hover, .btn-option:active {
-            border-color: #96c93d;
-            background: linear-gradient(to right, #f0fdf4, #fff);
-            color: #00b09b;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,176,155,0.2);
-        }
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+}
 
-        /* Telas */
-        .screen { display: none; animation: fadeIn 0.5s ease; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+body {
+  margin: 0;
+  background: var(--light-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-        /* Tela de Loading Premium */
-        .spinner-container {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 30px auto;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #00b09b;
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-            animation: spin 1s linear infinite;
-        }
-        .spinner-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 30px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.app {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
 
-        /* Tela Final (Oferta Irresistível) */
-        .alert-box {
-            background: linear-gradient(to right, #fff4f4, #ffeceb);
-            border-left: 5px solid #ff5252;
-            color: #c0392b;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            margin-bottom: 25px;
-            text-align: left;
-            box-shadow: 0 5px 15px rgba(255,82,82,0.1);
-        }
-        .cta-btn {
-            background: linear-gradient(to right, #00b09b, #96c93d);
-            color: white;
-            padding: 22px;
-            font-size: 22px;
-            text-decoration: none;
-            border-radius: 50px;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            font-weight: 700;
-            box-shadow: 0 10px 25px rgba(0, 176, 155, 0.4);
-            animation: pulse 2s infinite;
-            transition: transform 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .cta-btn:hover { transform: scale(1.05); }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 176, 155, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 176, 155, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 176, 155, 0); } }
+.header {
+  padding: 20px;
+}
 
-    </style>
+.progress {
+  height: 8px;
+  background: #eee;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #43a047, #66bb6a);
+  transition: width 0.4s ease;
+}
+
+.content {
+  padding: 25px;
+  animation: fade 0.4s ease;
+}
+
+h1 {
+  font-size: 22px;
+  color: var(--dark);
+}
+
+p {
+  color: var(--gray);
+  font-size: 15px;
+}
+
+.options {
+  margin-top: 20px;
+}
+
+button.option {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  border: none;
+  border-radius: 14px;
+  background: #f5f5f5;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button.option:hover {
+  background: #e0f2f1;
+}
+
+.loading {
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #eee;
+  border-top: 5px solid var(--green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+.cta {
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 18px;
+  font-size: 18px;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+.cta:hover {
+  opacity: 0.9;
+}
+
+@keyframes fade {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes spin {
+  to {transform: rotate(360deg);}
+}
+
+@keyframes pulse {
+  0% {box-shadow: 0 0 0 0 rgba(255,152,0,0.7);}
+  70% {box-shadow: 0 0 0 15px rgba(255,152,0,0);}
+  100% {box-shadow: 0 0 0 0 rgba(255,152,0,0);}
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    
-    <div class="progress-container" id="progressBarContainer">
-        <div class="progress-bar" id="progressBar"></div>
+<div class="app">
+  <div class="header">
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
+  </div>
 
-    <div class="screen active" id="q1">
-        <h1>Qual o porte do seu melhor amigo?</h1>
-        <p>Vamos personalizar as receitas para o tamanho dele.</p>
-        <button class="btn-option" onclick="nextStep('q2', 33)"><span>🐾</span> Pequeno (Até 10kg)</button>
-        <button class="btn-option" onclick="nextStep('q2', 33)"><span>🐕</span> Médio (10kg a 25kg)</button>
-        <button class="btn-option" onclick="nextStep('q2', 33)"><span>🐺</span> Grande (Mais de 25kg)</button>
-    </div>
-
-    <div class="screen" id="q2">
-        <h1>A queda de pelos te preocupa?</h1>
-        <p>Seja sincero, isso ajuda no diagnóstico.</p>
-        <button class="btn-option" onclick="nextStep('q3', 66)"><span>✅</span> É normal (Sazonal)</button>
-        <button class="btn-option" onclick="nextStep('q3', 66)"><span>⚠️</span> Incomoda um pouco</button>
-        <button class="btn-option" onclick="nextStep('q3', 66)"><span>🚨</span> Sim! Tem pelo na casa toda</button>
-    </div>
-
-    <div class="screen" id="q3">
-        <h1>Qual a base da alimentação hoje?</h1>
-        <p>O segredo da saúde está aqui.</p>
-        <button class="btn-option" onclick="startLoading()"><span>🥣</span> Só Ração Seca</button>
-        <button class="btn-option" onclick="startLoading()"><span>🍲</span> Ração + Misturas</button>
-        <button class="btn-option" onclick="startLoading()"><span>🥩</span> Comida Natural Caseira</button>
-    </div>
-
-    <div class="screen" id="loading">
-        <div class="spinner-container">
-            <div class="spinner"></div>
-            <div class="spinner-icon">🩺</div>
-        </div>
-        <h2 style="font-size: 22px; color: #333; font-weight: 700;">Processando Diagnóstico...</h2>
-        <p id="loadingText" style="font-size: 18px;">Analisando deficiências nutricionais...</p>
-    </div>
-
-    <div class="screen" id="final">
-        <div class="alert-box">
-            <strong style="font-size: 18px;">⚠️ RESULTADO CRÍTICO:</strong><br>
-            A alimentação atual do seu pet pode estar pobre em nutrientes essenciais, causando inflamação e queda acelerada.
-        </div>
-        
-        <h1 style="color: #00b09b; font-size: 28px;">Existe uma Solução Natural!</h1>
-        <p style="font-size: 18px;">Com base no perfil, seu cão precisa urgente do <strong>Protocolo de Nutrição Anti-Queda</strong> para restaurar a saúde da pele e pelagem.</p>
-        
-        <a href="https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N" class="cta-btn">LIBERAR MEU PROTOCOLO ➤</a>
-        
-        <p style="margin-top: 25px; font-size: 13px; color: #aaa; display: flex; align-items: center; justify-content: center;">
-            <span style="margin-right: 5px;">🔒</span> Compra 100% Segura | Garantia de 7 Dias
-        </p>
-    </div>
-
+  <div class="content" id="content"></div>
 </div>
 
 <script>
-    // Lógica simples e segura (a mesma de antes)
-    function nextStep(nextId, progress) {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        document.getElementById(nextId).classList.add('active');
-        document.getElementById('progressBar').style.width = progress + '%';
-    }
+const content = document.getElementById("content");
+const progressBar = document.getElementById("progressBar");
 
-    function startLoading() {
-        document.getElementById('progressBarContainer').style.display = 'none';
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        document.getElementById('loading').classList.add('active');
+let step = 0;
 
-        // Sequência de mensagens para gerar ansiedade
-        setTimeout(() => { document.getElementById('loadingText').innerText = "Cruzando dados de raça e porte..."; }, 1500);
-        setTimeout(() => { document.getElementById('loadingText').innerText = "Gerando protocolo personalizado..."; }, 3000);
+const steps = [
+  {
+    question: "Qual é o porte ou raça do seu cachorro?",
+    options: ["Pequeno porte", "Médio porte", "Grande porte", "Não sei ao certo"]
+  },
+  {
+    question: "Qual é a alimentação principal dele hoje?",
+    options: ["Ração comum de mercado", "Ração premium", "Mistura de ração e comida caseira", "Comida totalmente natural"]
+  },
+  {
+    question: "Seu cachorro sofre com algum desses problemas?",
+    options: ["Queda excessiva de pelo", "Coceira constante", "Pele vermelha ou feridas", "Vários desses sintomas"]
+  },
+  {
+    question: "Com que frequência esses sintomas aparecem?",
+    options: ["Quase nunca", "De vez em quando", "Com bastante frequência", "Praticamente todos os dias"]
+  }
+];
 
-        // Mostra resultado final após 5 segundos
-        setTimeout(() => {
-            document.getElementById('loading').classList.remove('active');
-            document.getElementById('final').classList.add('active');
-        }, 5000);
-    }
+function renderStep() {
+  progressBar.style.width = ((step) / steps.length) * 100 + "%";
+
+  const q = steps[step];
+  content.innerHTML = `
+    <h1>${q.question}</h1>
+    <div class="options">
+      ${q.options.map(opt => `<button class="option" onclick="next()">${opt}</button>`).join("")}
+    </div>
+  `;
+}
+
+function next() {
+  step++;
+  if (step < steps.length) {
+    renderStep();
+  } else {
+    showLoading();
+  }
+}
+
+function showLoading() {
+  progressBar.style.width = "100%";
+  content.innerHTML = `
+    <div class="loading">
+      <h1>Analisando as respostas...</h1>
+      <div class="spinner"></div>
+      <p>Verificando sinais de inflamação...</p>
+      <p>Analisando impacto da alimentação...</p>
+      <p>Cruzando dados de saúde da pele e do pelo...</p>
+    </div>
+  `;
+
+  setTimeout(showResult, 3000);
+}
+
+function showResult() {
+  content.innerHTML = `
+    <h1>⚠️ Diagnóstico de Alerta</h1>
+    <p>
+      Os sinais indicam que a <strong>alimentação atual do seu cão pode estar causando
+      inflamações, alergias e queda excessiva de pelo</strong>.
+    </p>
+    <p>
+      Muitas rações industrializadas contêm corantes, conservantes e ingredientes que
+      prejudicam a pele e o pelo do seu cachorro.
+    </p>
+    <p>
+      A boa notícia é que <strong>receitas naturais específicas</strong> podem ajudar a
+      restaurar a saúde, reduzir a coceira e devolver o brilho do pelo.
+    </p>
+
+    <button class="cta" onclick="window.location.href='https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N'">
+      Quero salvar a saúde do meu cão agora 🐶
+    </button>
+  `;
+}
+
+renderStep();
 </script>
 
 </body>
