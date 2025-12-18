@@ -3,115 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagnóstico Pet - Saúde Natural</title>
+    <title>Diagnóstico Pet Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos Gerais (Design Bonito) */
+        /* Estilos Gerais Premium */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #eef2f3;
+            font-family: 'Poppins', sans-serif;
+            /* Degradê de fundo moderno */
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            color: #333;
         }
         .container {
-            background: white;
-            width: 90%;
-            max-width: 450px;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 480px;
+            padding: 35px 25px;
+            border-radius: 30px;
+            /* Sombra suave e profunda */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        /* Barra de Progresso */
+        /* Barra de Progresso Estilosa */
         .progress-container {
             width: 100%;
-            background-color: #f1f1f1;
+            background-color: #e0e0e0;
             border-radius: 50px;
-            margin-bottom: 25px;
-            height: 8px;
+            margin-bottom: 35px;
+            height: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
         .progress-bar {
             height: 100%;
             width: 10%;
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            /* Degradê na barra */
+            background: linear-gradient(90deg, #00b09b, #96c93d);
             border-radius: 50px;
-            transition: width 0.4s ease;
+            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* Títulos e Textos */
-        h1 { color: #333; font-size: 22px; margin-bottom: 10px; line-height: 1.3; }
-        p { color: #666; font-size: 16px; margin-bottom: 25px; }
+        h1 { 
+            color: #2c3e50; 
+            font-size: 26px; 
+            font-weight: 700;
+            margin-bottom: 15px; 
+            line-height: 1.3; 
+        }
+        p { color: #666; font-size: 17px; margin-bottom: 30px; line-height: 1.6; }
 
-        /* Botões das Perguntas */
+        /* Botões das Perguntas (Upgrade!) */
         .btn-option {
-            display: block;
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding: 16px;
-            margin: 12px 0;
+            padding: 18px 25px;
+            margin: 15px 0;
             background: #fff;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            color: #555;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            font-size: 18px;
+            color: #444;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             text-align: left;
-            padding-left: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-family: 'Poppins', sans-serif;
         }
+        .btn-option span { margin-right: 15px; font-size: 24px; }
         .btn-option:hover, .btn-option:active {
-            border-color: #27ae60;
-            background-color: #f0fdf4;
-            color: #27ae60;
-            transform: scale(1.02);
+            border-color: #96c93d;
+            background: linear-gradient(to right, #f0fdf4, #fff);
+            color: #00b09b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,176,155,0.2);
         }
 
-        /* Telas (Escondidas por padrão) */
-        .screen { display: none; }
+        /* Telas */
+        .screen { display: none; animation: fadeIn 0.5s ease; }
         .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Tela de Loading (Animação) */
+        /* Tela de Loading Premium */
+        .spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px auto;
+        }
         .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #27ae60;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #00b09b;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 100%;
+            height: 100%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px auto;
+        }
+        .spinner-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Tela Final (Oferta) */
+        /* Tela Final (Oferta Irresistível) */
         .alert-box {
-            background-color: #fff4f4;
-            border: 1px solid #ffcccc;
-            color: #d32f2f;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff4f4, #ffeceb);
+            border-left: 5px solid #ff5252;
+            color: #c0392b;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 25px;
             text-align: left;
+            box-shadow: 0 5px 15px rgba(255,82,82,0.1);
         }
         .cta-btn {
-            background: linear-gradient(to bottom, #2ecc71, #218c53);
+            background: linear-gradient(to right, #00b09b, #96c93d);
             color: white;
-            padding: 20px;
-            font-size: 20px;
+            padding: 22px;
+            font-size: 22px;
             text-decoration: none;
             border-radius: 50px;
             display: block;
             width: 100%;
             box-sizing: border-box;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0, 176, 155, 0.4);
             animation: pulse 2s infinite;
+            transition: transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        .cta-btn:hover { transform: scale(1.05); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 176, 155, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 176, 155, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 176, 155, 0); } }
 
     </style>
 </head>
@@ -124,57 +161,61 @@
     </div>
 
     <div class="screen active" id="q1">
-        <h1>🐶 Qual o porte do seu cachorro?</h1>
-        <button class="btn-option" onclick="nextStep('q2', 33)">🐾 Pequeno (Até 10kg)</button>
-        <button class="btn-option" onclick="nextStep('q2', 33)">🐕 Médio (10kg a 25kg)</button>
-        <button class="btn-option" onclick="nextStep('q2', 33)">🐺 Grande (Mais de 25kg)</button>
+        <h1>Qual o porte do seu melhor amigo?</h1>
+        <p>Vamos personalizar as receitas para o tamanho dele.</p>
+        <button class="btn-option" onclick="nextStep('q2', 33)"><span>🐾</span> Pequeno (Até 10kg)</button>
+        <button class="btn-option" onclick="nextStep('q2', 33)"><span>🐕</span> Médio (10kg a 25kg)</button>
+        <button class="btn-option" onclick="nextStep('q2', 33)"><span>🐺</span> Grande (Mais de 25kg)</button>
     </div>
 
     <div class="screen" id="q2">
-        <h1>🧹 Como está a queda de pelos?</h1>
-        <button class="btn-option" onclick="nextStep('q3', 66)">✅ Normal (Sazonal)</button>
-        <button class="btn-option" onclick="nextStep('q3', 66)">⚠️ Moderada (Incomoda)</button>
-        <button class="btn-option" onclick="nextStep('q3', 66)">🚨 Excessiva (Pelo por tudo!)</button>
+        <h1>A queda de pelos te preocupa?</h1>
+        <p>Seja sincero, isso ajuda no diagnóstico.</p>
+        <button class="btn-option" onclick="nextStep('q3', 66)"><span>✅</span> É normal (Sazonal)</button>
+        <button class="btn-option" onclick="nextStep('q3', 66)"><span>⚠️</span> Incomoda um pouco</button>
+        <button class="btn-option" onclick="nextStep('q3', 66)"><span>🚨</span> Sim! Tem pelo na casa toda</button>
     </div>
 
     <div class="screen" id="q3">
-        <h1>🍖 O que ele come hoje?</h1>
-        <button class="btn-option" onclick="startLoading()">🥣 Só Ração Seca</button>
-        <button class="btn-option" onclick="startLoading()">🍲 Ração + Restos</button>
-        <button class="btn-option" onclick="startLoading()">🥩 Comida Natural</button>
+        <h1>Qual a base da alimentação hoje?</h1>
+        <p>O segredo da saúde está aqui.</p>
+        <button class="btn-option" onclick="startLoading()"><span>🥣</span> Só Ração Seca</button>
+        <button class="btn-option" onclick="startLoading()"><span>🍲</span> Ração + Misturas</button>
+        <button class="btn-option" onclick="startLoading()"><span>🥩</span> Comida Natural Caseira</button>
     </div>
 
     <div class="screen" id="loading">
-        <div class="spinner"></div>
-        <h2 style="font-size: 18px; color: #333;">Analisando Perfil...</h2>
-        <p id="loadingText">Verificando deficiências nutricionais...</p>
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <div class="spinner-icon">🩺</div>
+        </div>
+        <h2 style="font-size: 22px; color: #333; font-weight: 700;">Processando Diagnóstico...</h2>
+        <p id="loadingText" style="font-size: 18px;">Analisando deficiências nutricionais...</p>
     </div>
 
     <div class="screen" id="final">
         <div class="alert-box">
-            <strong>⚠️ DIAGNÓSTICO:</strong><br>
-            A alimentação atual pode não estar suprindo as vitaminas necessárias, causando a queda.
+            <strong style="font-size: 18px;">⚠️ RESULTADO CRÍTICO:</strong><br>
+            A alimentação atual do seu pet pode estar pobre em nutrientes essenciais, causando inflamação e queda acelerada.
         </div>
         
-        <h1 style="color: #218c53;">Encontramos a Solução!</h1>
-        <p>Com base nas respostas, seu cão precisa do <strong>Protocolo de Nutrição Natural</strong> para parar a queda e aumentar a imunidade.</p>
+        <h1 style="color: #00b09b; font-size: 28px;">Existe uma Solução Natural!</h1>
+        <p style="font-size: 18px;">Com base no perfil, seu cão precisa urgente do <strong>Protocolo de Nutrição Anti-Queda</strong> para restaurar a saúde da pele e pelagem.</p>
         
-        <a href="https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N" class="cta-btn">QUERO VER AS RECEITAS ➤</a>
+        <a href="https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N" class="cta-btn">LIBERAR MEU PROTOCOLO ➤</a>
         
-        <p style="margin-top: 20px; font-size: 12px; color: #aaa;">
-            🔒 Compra 100% Segura e com Garantia
+        <p style="margin-top: 25px; font-size: 13px; color: #aaa; display: flex; align-items: center; justify-content: center;">
+            <span style="margin-right: 5px;">🔒</span> Compra 100% Segura | Garantia de 7 Dias
         </p>
     </div>
 
 </div>
 
 <script>
+    // Lógica simples e segura (a mesma de antes)
     function nextStep(nextId, progress) {
-        // Esconde tela atual
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        // Mostra próxima
         document.getElementById(nextId).classList.add('active');
-        // Atualiza barra
         document.getElementById('progressBar').style.width = progress + '%';
     }
 
@@ -183,15 +224,15 @@
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
         document.getElementById('loading').classList.add('active');
 
-        // Animação de texto mudando
-        setTimeout(() => { document.getElementById('loadingText').innerText = "Calculando fórmula ideal..."; }, 1500);
-        setTimeout(() => { document.getElementById('loadingText').innerText = "Gerando recomendações..."; }, 3000);
+        // Sequência de mensagens para gerar ansiedade
+        setTimeout(() => { document.getElementById('loadingText').innerText = "Cruzando dados de raça e porte..."; }, 1500);
+        setTimeout(() => { document.getElementById('loadingText').innerText = "Gerando protocolo personalizado..."; }, 3000);
 
-        // Mostra resultado final após 4.5 segundos
+        // Mostra resultado final após 5 segundos
         setTimeout(() => {
             document.getElementById('loading').classList.remove('active');
             document.getElementById('final').classList.add('active');
-        }, 4500);
+        }, 5000);
     }
 </script>
 
