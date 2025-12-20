@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz: Alimentação Canina Ideal</title>
+    <title>Avaliação Nutricional Canina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <!-- Facebook Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -14,301 +16,357 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1380291333538824'); 
+    fbq('init', '1380291333538824');
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1380291333538824&ev=PageView&noscript=1"
     /></noscript>
+    <!-- End Facebook Pixel Code -->
+
     <style>
-        /* ESTILO GERAL - Focado em Mobile */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
+        :root {
+            --primary-green: #27ae60;
+            --secondary-green: #2ecc71;
+            --dark-green: #1e8449;
+            --text-dark: #2c3e50;
+            --bg-light: #f4f9f4;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .container {
-            background: white;
-            width: 100%;
-            max-width: 450px;
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
-        @media(min-width: 500px) {
-            .container {
-                min-height: auto;
-                border-radius: 20px;
-                padding: 40px;
-                margin: 20px;
-            }
+        #quiz-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-top: 20px;
         }
 
-        /* BARRA DE PROGRESSO */
         .progress-container {
             width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            margin-bottom: 30px;
             height: 8px;
-            display: none; /* Escondido na capa */
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #27ae60; /* Verde Confiança */
+            background: #e0e0e0;
             border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        /* TIPOGRAFIA */
-        h1 {
-            color: #333;
-            font-size: 22px;
-            text-align: center;
-            line-height: 1.4;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #666;
-            text-align: center;
             margin-bottom: 30px;
-            font-size: 16px;
+            overflow: hidden;
         }
 
-        .highlight {
-            color: #27ae60;
-            font-weight: bold;
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-green);
+            transition: width 0.4s ease;
         }
 
-        /* BOTÕES */
-        .btn-option {
-            width: 100%;
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+
+        p.subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .options-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: var(--white);
+            border: 2px solid #edf2f7;
             padding: 18px;
-            margin-bottom: 15px;
-            border: 2px solid #e0e0e0;
             border-radius: 12px;
-            background: white;
+            cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            color: #444;
-            cursor: pointer;
-            transition: all 0.2s;
             text-align: left;
+            transition: all 0.2s ease;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
-        .btn-option:hover, .btn-option:active {
-            border-color: #27ae60;
-            background-color: #f9fff9;
-            color: #27ae60;
+        .option-btn:hover {
+            border-color: var(--secondary-green);
+            background-color: #f0fff4;
         }
 
-        .btn-option:after {
-            content: '➔';
-            opacity: 0.5;
+        .option-btn:after {
+            content: '→';
+            color: var(--primary-green);
+            opacity: 0;
+            transition: 0.2s;
         }
 
-        .btn-cta {
-            background-color: #27ae60;
-            color: white;
+        .option-btn:hover:after {
+            opacity: 1;
+        }
+
+        /* Loading Screen */
+        .loading-content {
             text-align: center;
-            border: none;
-            justify-content: center;
-            font-size: 18px;
-            animation: pulse 2s infinite;
-        }
-        
-        .btn-cta:after { content: ''; }
-
-        /* TELA DE CARREGAMENTO */
-        .loading-screen {
-            text-align: center;
-            display: none;
+            padding: 40px 0;
         }
 
         .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #27ae60;
-            border-radius: 50%;
             width: 50px;
             height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-green);
+            border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 20px;
         }
 
-        .loading-text {
-            font-weight: bold;
-            color: #555;
-            font-size: 18px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* ANIMAÇÕES */
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        
-        .step { display: none; animation: fadeIn 0.5s; }
-        .step.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #loading-text {
+            font-weight: 600;
+            color: var(--primary-green);
+            height: 24px;
+        }
 
-        /* RODAPÉ */
-        .footer-safe {
-            margin-top: 20px;
+        /* Result Screen */
+        .result-header {
             text-align: center;
-            font-size: 12px;
-            color: #999;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            align-items: center;
+            margin-bottom: 20px;
         }
-        .icon-lock { width: 12px; height: 12px; display: inline-block; background: #999; mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>'); -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>'); }
+
+        .badge {
+            background: #ffeaa7;
+            color: #d35400;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .offer-box {
+            background: #f9fff9;
+            border: 1px dashed var(--primary-green);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .cta-button {
+            display: block;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            transition: transform 0.2s ease;
+            margin-top: 25px;
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        .urgency-text {
+            font-size: 13px;
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            #quiz-container {
+                padding: 20px;
+                box-shadow: none;
+                margin-top: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <div class="progress-container" id="progressBarContainer">
-        <div class="progress-bar" id="progressBar"></div>
+    <div id="quiz-container">
+        <!-- Progress Bar -->
+        <div class="progress-container" id="pb-wrapper">
+            <div id="progress-bar"></div>
+        </div>
+
+        <!-- Step 1: Porte/Idade -->
+        <div class="step active" id="step1">
+            <h2>Qual é o porte e a fase de vida do seu companheiro?</h2>
+            <p class="subtitle">Precisamos disso para entender as necessidades calóricas básicas.</p>
+            <div class="options-list">
+                <div class="option-btn" onclick="nextStep(2, 20)">Filhote (Pequeno/Médio)</div>
+                <div class="option-btn" onclick="nextStep(2, 20)">Adulto (Até 10kg)</div>
+                <div class="option-btn" onclick="nextStep(2, 20)">Adulto (Grande/Gigante)</div>
+                <div class="option-btn" onclick="nextStep(2, 20)">Sênior (7+ anos)</div>
+            </div>
+        </div>
+
+        <!-- Step 2: Comportamento Alimentar -->
+        <div class="step" id="step2">
+            <h2>Como ele se comporta na hora de comer?</h2>
+            <p class="subtitle">Isso indica possíveis problemas digestivos ou tédio nutricional.</p>
+            <div class="options-list">
+                <div class="option-btn" onclick="nextStep(3, 40)">Come tudo muito rápido</div>
+                <div class="option-btn" onclick="nextStep(3, 40)">É enjoado (tenho que insistir)</div>
+                <div class="option-btn" onclick="nextStep(3, 40)">Só come se misturar algo na ração</div>
+                <div class="option-btn" onclick="nextStep(3, 40)">Come pouco e parece sem energia</div>
+            </div>
+        </div>
+
+        <!-- Step 3: Sintomas de Inflamação -->
+        <div class="step" id="step3">
+            <h2>Você nota algum desses sinais de sensibilidade?</h2>
+            <p class="subtitle">Estes são sintomas claros de uma dieta inflamatória.</p>
+            <div class="options-list">
+                <div class="option-btn" onclick="nextStep(4, 60)">Coceira constante ou queda de pelo</div>
+                <div class="option-btn" onclick="nextStep(4, 60)">Lágrimas ácidas (mancha nos olhos)</div>
+                <div class="option-btn" onclick="nextStep(4, 60)">Odor forte no corpo ou hálito ruim</div>
+                <div class="option-btn" onclick="nextStep(4, 60)">Fezes moles ou muito frequentes</div>
+            </div>
+        </div>
+
+        <!-- Step 4: Dieta Atual -->
+        <div class="step" id="step4">
+            <h2>Qual é a base da alimentação dele hoje?</h2>
+            <div class="options-list">
+                <div class="option-btn" onclick="nextStep(5, 80)">Apenas ração seca comercial</div>
+                <div class="option-btn" onclick="nextStep(5, 80)">Ração com sachê/comida caseira</div>
+                <div class="option-btn" onclick="nextStep(5, 80)">Comida natural sem acompanhamento</div>
+            </div>
+        </div>
+
+        <!-- Step 5: Preocupação do Tutor -->
+        <div class="step" id="step5">
+            <h2>O quanto você se preocupa com a longevidade dele?</h2>
+            <p class="subtitle">A alimentação é o fator #1 para evitar doenças graves.</p>
+            <div class="options-list">
+                <div class="option-btn" onclick="startLoading()">Quero que ele viva o máximo possível</div>
+                <div class="option-btn" onclick="startLoading()">Estou preocupado com a saúde atual dele</div>
+                <div class="option-btn" onclick="startLoading()">Quero economizar com veterinário</div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="step" id="step-loading">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <div id="loading-text">Analisando respostas...</div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="step" id="step-result">
+            <div class="result-header">
+                <span class="badge">Análise Concluída</span>
+                <h2 style="color: #c0392b;">Atenção: Seu cão apresenta sinais de alerta nutricional!</h2>
+            </div>
+            
+            <p>Com base nos dados fornecidos, detectamos que o organismo do seu pet está operando em um <strong>estado inflamatório silencioso</strong>.</p>
+            
+            <div class="offer-box">
+                <p>✅ <strong>Diagnóstico:</strong> Necessidade imediata de transição para uma Dieta Natural Anti-inflamatória.</p>
+                <p style="margin-top:10px;">A ração seca industrializada pode estar sobrecarregando o fígado e rins do seu cão, causando os sintomas relatados.</p>
+            </div>
+
+            <p>Preparamos um guia completo de <strong>Alimentação Natural</strong> para você começar hoje mesmo a transformar a saúde e dobrar a expectativa de vida do seu melhor amigo.</p>
+
+            <a href="https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N" class="cta-button" onclick="trackCheckout()">
+                QUERO ADQUIRIR AS RECEITAS
+            </a>
+            
+            <p class="urgency-text">Oferta disponível apenas por tempo limitado para novos alunos.</p>
+        </div>
     </div>
 
-    <div class="step active" id="step1">
-        <h1>Descubra o cardápio ideal para seu cão <span class="highlight">viver mais</span> 🐶</h1>
-        <p>Responda 4 perguntas rápidas e receba uma análise nutricional gratuita.</p>
-        <button class="btn-option btn-cta" onclick="nextStep(2)">COMEÇAR AGORA</button>
-        <div class="footer-safe"><span class="icon-lock"></span> Site Seguro</div>
-    </div>
-
-    <div class="step" id="step2">
-        <h1>Qual o porte do seu cachorro?</h1>
-        <button class="btn-option" onclick="nextStep(3)">Pequeno (ex: Pug, Shih Tzu)</button>
-        <button class="btn-option" onclick="nextStep(3)">Médio (ex: Bulldog, Beagle)</button>
-        <button class="btn-option" onclick="nextStep(3)">Grande (ex: Golden, Pastor)</button>
-    </div>
-
-    <div class="step" id="step3">
-        <h1>Qual a idade dele(a)?</h1>
-        <button class="btn-option" onclick="nextStep(4)">Filhote (menos de 1 ano)</button>
-        <button class="btn-option" onclick="nextStep(4)">Adulto (1 a 7 anos)</button>
-        <button class="btn-option" onclick="nextStep(4)">Idoso (mais de 7 anos)</button>
-    </div>
-
-    <div class="step" id="step4">
-        <h1>Ele apresenta algum desses problemas?</h1>
-        <p>Selecione a principal preocupação:</p>
-        <button class="btn-option" onclick="nextStep(5)">Queda excessiva de pelos</button>
-        <button class="btn-option" onclick="nextStep(5)">Coceiras ou alergias</button>
-        <button class="btn-option" onclick="nextStep(5)">Falta de apetite / Enjoado</button>
-        <button class="btn-option" onclick="nextStep(5)">Nenhum / Apenas prevenção</button>
-    </div>
-
-    <div class="step loading-screen" id="stepLoading">
-        <div class="spinner"></div>
-        <p class="loading-text" id="loadingText">Analisando perfil...</p>
-    </div>
-
-    <div class="step" id="stepResult">
-        <h1>🎉 Perfil Encontrado!</h1>
-        <p>Baseado nas suas respostas, seu cão precisa de uma <strong class="highlight">Alimentação Natural Anti-inflamatória.</strong></p>
-        
-        <p style="font-size: 14px; text-align: left; background: #f9fff9; padding: 15px; border-radius: 8px; border: 1px solid #27ae60;">
-            ✅ <strong>Resultado:</strong> A ração comum pode estar prejudicando a saúde dele. Recomendamos receitas ricas em proteínas naturais para acabar com a queda de pelos e aumentar a imunidade.
-        </p>
-
-        <p>Preparamos um Guia com 30 Receitas Exatas para o perfil dele:</p>
-        
-        <button class="btn-option btn-cta" onclick="goToCheckout()">VER CARDÁPIO AGORA</button>
-        
-        <p style="font-size: 12px; margin-top: 10px;">Oferta por tempo limitado: De R$ 97 por R$ 29,90</p>
-    </div>
-
-</div>
-
-<script>
-    let currentStep = 1;
-    const totalSteps = 4; // Perguntas reais
-
-    function nextStep(step) {
-        // Esconde o passo atual
-        document.querySelector('.step.active').classList.remove('active');
-        
-        if (step === 5) {
-            // Se for para o loading, inicia a lógica de IA falsa
-            startLoading();
-        } else {
-            // Mostra o próximo passo
+    <script>
+        function nextStep(step, progress) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + step).classList.add('active');
-            updateProgressBar(step);
+            document.getElementById('progress-bar').style.width = progress + '%';
         }
-    }
 
-    function updateProgressBar(step) {
-        const container = document.getElementById('progressBarContainer');
-        const bar = document.getElementById('progressBar');
-        
-        if (step > 1 && step < 5) {
-            container.style.display = 'block';
-            let percentage = ((step - 1) / totalSteps) * 100;
-            bar.style.width = percentage + '%';
-        } else {
-            container.style.display = 'none';
+        function startLoading() {
+            document.getElementById('pb-wrapper').style.display = 'none';
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-loading').classList.add('active');
+            
+            const messages = [
+                "Analisando perfil biológico...",
+                "Verificando carências nutricionais...",
+                "Calculando dieta anti-inflamatória...",
+                "Finalizando seu plano personalizado!"
+            ];
+            
+            let i = 0;
+            const interval = setInterval(() => {
+                document.getElementById('loading-text').innerText = messages[i];
+                i++;
+                if (i >= messages.length) {
+                    clearInterval(interval);
+                    showResult();
+                }
+            }, 800);
         }
-    }
 
-    function startLoading() {
-        document.getElementById('stepLoading').classList.add('active');
-        
-        const texts = [
-            "Analisando porte e idade...",
-            "Calculando nutrientes necessários...",
-            "Verificando alergias...",
-            "Gerando cardápio personalizado..."
-        ];
-        
-        let i = 0;
-        const textElement = document.getElementById('loadingText');
-        
-        const interval = setInterval(() => {
-            textElement.innerText = texts[i];
-            i++;
-            if (i >= texts.length) {
-                clearInterval(interval);
-                showResult();
+        function showResult() {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-result').classList.add('active');
+        }
+
+        function trackCheckout() {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'InitiateCheckout');
             }
-        }, 800); // Troca o texto a cada 0.8 segundos
-    }
-
-    function showResult() {
-        document.getElementById('stepLoading').classList.remove('active');
-        document.getElementById('stepResult').classList.add('active');
-    }
-
-    function goToCheckout() {
-        // Dispara o evento de InitiateCheckout para o Pixel ID 1380291333538824
-        fbq('track', 'InitiateCheckout'); 
-        
-        // Pequeno delay para garantir que o Pixel marcou antes de sair da página
-        setTimeout(function(){
-            window.location.href = "https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N"; 
-        }, 300);
-    }
-</script>
-
+        }
+    </script>
 </body>
 </html>
-
