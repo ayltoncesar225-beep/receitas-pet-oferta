@@ -2,9 +2,9 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avaliação Nutricional Canina</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Avaliação de Saúde Canina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- Facebook Pixel Code -->
     <script>
@@ -26,347 +26,309 @@
 
     <style>
         :root {
-            --primary-green: #27ae60;
-            --secondary-green: #2ecc71;
-            --dark-green: #1e8449;
-            --text-dark: #2c3e50;
-            --bg-light: #f4f9f4;
-            --white: #ffffff;
+            --primary: #2d5a27;
+            --secondary: #4caf50;
+            --accent: #f39c12;
+            --bg: #fdfdfd;
+            --text: #333;
+            --light-gray: #f2f2f2;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
         }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        #quiz-container {
+        #quiz-wrapper {
             width: 100%;
             max-width: 500px;
-            background: var(--white);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            margin-top: 20px;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .progress-container {
+        /* Barra de Progresso */
+        .progress-bar-container {
             width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin-bottom: 25px;
             overflow: hidden;
         }
-
-        #progress-bar {
+        #progress-fill {
             height: 100%;
-            width: 0%;
-            background: var(--primary-green);
-            transition: width 0.4s ease;
+            width: 15%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
         }
 
-        .step {
-            display: none;
-            animation: fadeIn 0.5s ease;
+        /* Questões */
+        .step { display: none; animation: slideIn 0.3s ease-out; }
+        .step.active { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .step.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .question-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         h2 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
             line-height: 1.3;
-            color: var(--text-dark);
+            margin-bottom: 20px;
         }
 
-        p.subtitle {
-            font-size: 15px;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .options-list {
-            display: grid;
-            gap: 12px;
-        }
-
+        /* Botões Mobile-First */
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
         .option-btn {
-            background: var(--white);
-            border: 2px solid #edf2f7;
-            padding: 18px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 16px;
             border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
             text-align: left;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            justify-content: space-between;
         }
+        .option-btn:active { transform: scale(0.98); background-color: #f9f9f9; }
+        .option-btn.selected { border-color: var(--secondary); background-color: #e8f5e9; }
 
-        .option-btn:hover {
-            border-color: var(--secondary-green);
-            background-color: #f0fff4;
-        }
-
-        .option-btn:after {
-            content: '→';
-            color: var(--primary-green);
-            opacity: 0;
-            transition: 0.2s;
-        }
-
-        .option-btn:hover:after {
-            opacity: 1;
-        }
-
-        /* Loading Screen */
-        .loading-content {
-            text-align: center;
-            padding: 40px 0;
-        }
-
+        /* Fake Loading */
+        .loading-screen { text-align: center; padding-top: 50px; }
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-green);
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        #loading-text {
-            font-weight: 600;
-            color: var(--primary-green);
-            height: 24px;
-        }
-
-        /* Result Screen */
-        .result-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .badge {
-            background: #ffeaa7;
-            color: #d35400;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
-        .offer-box {
-            background: #f9fff9;
-            border: 1px dashed var(--primary-green);
-            padding: 20px;
+        /* Resultado */
+        .result-card {
+            background: #fff;
+            padding: 0px;
             border-radius: 15px;
-            margin: 20px 0;
         }
+        .status-badge {
+            background: #ffebee;
+            color: #c62828;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .highlight { color: var(--primary); font-weight: bold; }
 
+        /* Botão Final */
         .cta-button {
-            display: block;
             background: #27ae60;
             color: white;
             text-decoration: none;
-            text-align: center;
             padding: 20px;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
-            transition: transform 0.2s ease;
-            margin-top: 25px;
-        }
-
-        .cta-button:active {
-            transform: scale(0.98);
-        }
-
-        .urgency-text {
-            font-size: 13px;
-            color: #e74c3c;
+            border-radius: 15px;
+            display: block;
             text-align: center;
-            margin-top: 15px;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 25px;
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+            animation: pulse 2s infinite;
         }
 
-        @media (max-width: 480px) {
-            #quiz-container {
-                padding: 20px;
-                box-shadow: none;
-                margin-top: 0;
-            }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .footer-info {
+            font-size: 0.8rem;
+            color: #999;
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div id="quiz-container">
-        <!-- Progress Bar -->
-        <div class="progress-container" id="pb-wrapper">
-            <div id="progress-bar"></div>
-        </div>
+<div id="quiz-wrapper">
+    <div class="progress-bar-container" id="progress-container">
+        <div id="progress-fill"></div>
+    </div>
 
-        <!-- Step 1: Porte/Idade -->
-        <div class="step active" id="step1">
-            <h2>Qual é o porte e a fase de vida do seu companheiro?</h2>
-            <p class="subtitle">Precisamos disso para entender as necessidades calóricas básicas.</p>
-            <div class="options-list">
-                <div class="option-btn" onclick="nextStep(2, 20)">Filhote (Pequeno/Médio)</div>
-                <div class="option-btn" onclick="nextStep(2, 20)">Adulto (Até 10kg)</div>
-                <div class="option-btn" onclick="nextStep(2, 20)">Adulto (Grande/Gigante)</div>
-                <div class="option-btn" onclick="nextStep(2, 20)">Sênior (7+ anos)</div>
-            </div>
-        </div>
-
-        <!-- Step 2: Comportamento Alimentar -->
-        <div class="step" id="step2">
-            <h2>Como ele se comporta na hora de comer?</h2>
-            <p class="subtitle">Isso indica possíveis problemas digestivos ou tédio nutricional.</p>
-            <div class="options-list">
-                <div class="option-btn" onclick="nextStep(3, 40)">Come tudo muito rápido</div>
-                <div class="option-btn" onclick="nextStep(3, 40)">É enjoado (tenho que insistir)</div>
-                <div class="option-btn" onclick="nextStep(3, 40)">Só come se misturar algo na ração</div>
-                <div class="option-btn" onclick="nextStep(3, 40)">Come pouco e parece sem energia</div>
-            </div>
-        </div>
-
-        <!-- Step 3: Sintomas de Inflamação -->
-        <div class="step" id="step3">
-            <h2>Você nota algum desses sinais de sensibilidade?</h2>
-            <p class="subtitle">Estes são sintomas claros de uma dieta inflamatória.</p>
-            <div class="options-list">
-                <div class="option-btn" onclick="nextStep(4, 60)">Coceira constante ou queda de pelo</div>
-                <div class="option-btn" onclick="nextStep(4, 60)">Lágrimas ácidas (mancha nos olhos)</div>
-                <div class="option-btn" onclick="nextStep(4, 60)">Odor forte no corpo ou hálito ruim</div>
-                <div class="option-btn" onclick="nextStep(4, 60)">Fezes moles ou muito frequentes</div>
-            </div>
-        </div>
-
-        <!-- Step 4: Dieta Atual -->
-        <div class="step" id="step4">
-            <h2>Qual é a base da alimentação dele hoje?</h2>
-            <div class="options-list">
-                <div class="option-btn" onclick="nextStep(5, 80)">Apenas ração seca comercial</div>
-                <div class="option-btn" onclick="nextStep(5, 80)">Ração com sachê/comida caseira</div>
-                <div class="option-btn" onclick="nextStep(5, 80)">Comida natural sem acompanhamento</div>
-            </div>
-        </div>
-
-        <!-- Step 5: Preocupação do Tutor -->
-        <div class="step" id="step5">
-            <h2>O quanto você se preocupa com a longevidade dele?</h2>
-            <p class="subtitle">A alimentação é o fator #1 para evitar doenças graves.</p>
-            <div class="options-list">
-                <div class="option-btn" onclick="startLoading()">Quero que ele viva o máximo possível</div>
-                <div class="option-btn" onclick="startLoading()">Estou preocupado com a saúde atual dele</div>
-                <div class="option-btn" onclick="startLoading()">Quero economizar com veterinário</div>
-            </div>
-        </div>
-
-        <!-- Loading Screen -->
-        <div class="step" id="step-loading">
-            <div class="loading-content">
-                <div class="spinner"></div>
-                <div id="loading-text">Analisando respostas...</div>
-            </div>
-        </div>
-
-        <!-- Result Screen -->
-        <div class="step" id="step-result">
-            <div class="result-header">
-                <span class="badge">Análise Concluída</span>
-                <h2 style="color: #c0392b;">Atenção: Seu cão apresenta sinais de alerta nutricional!</h2>
-            </div>
-            
-            <p>Com base nos dados fornecidos, detectamos que o organismo do seu pet está operando em um <strong>estado inflamatório silencioso</strong>.</p>
-            
-            <div class="offer-box">
-                <p>✅ <strong>Diagnóstico:</strong> Necessidade imediata de transição para uma Dieta Natural Anti-inflamatória.</p>
-                <p style="margin-top:10px;">A ração seca industrializada pode estar sobrecarregando o fígado e rins do seu cão, causando os sintomas relatados.</p>
-            </div>
-
-            <p>Preparamos um guia completo de <strong>Alimentação Natural</strong> para você começar hoje mesmo a transformar a saúde e dobrar a expectativa de vida do seu melhor amigo.</p>
-
-            <a href="https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N" class="cta-button" onclick="trackCheckout()">
-                QUERO ADQUIRIR AS RECEITAS
-            </a>
-            
-            <p class="urgency-text">Oferta disponível apenas por tempo limitado para novos alunos.</p>
+    <!-- Pergunta 1 -->
+    <div class="step active" id="step1">
+        <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=500&q=80" class="question-img" alt="Cão feliz">
+        <h2>Para começar, qual o porte do seu filho de quatro patas?</h2>
+        <div class="options-container">
+            <button class="option-btn" onclick="nextStep(1, 'pequeno')">Porte Pequeno (até 10kg)</button>
+            <button class="option-btn" onclick="nextStep(1, 'medio')">Porte Médio (11kg a 25kg)</button>
+            <button class="option-btn" onclick="nextStep(1, 'grande')">Porte Grande (25kg+)</button>
         </div>
     </div>
 
-    <script>
-        function nextStep(step, progress) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + step).classList.add('active');
-            document.getElementById('progress-bar').style.width = progress + '%';
-        }
+    <!-- Pergunta 2 -->
+    <div class="step" id="step2">
+        <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=500&q=80" class="question-img" alt="Cão comendo">
+        <h2>Como é o apetite dele atualmente?</h2>
+        <div class="options-container">
+            <button class="option-btn" onclick="nextStep(2, 'guloso')">Devora tudo em segundos</button>
+            <button class="option-btn" onclick="savePain('enjoado'); nextStep(2, 'enjoado')">Muito enjoado para comer</button>
+            <button class="option-btn" onclick="nextStep(2, 'normal')">Apetite normal / Equilibrado</button>
+        </div>
+    </div>
 
-        function startLoading() {
-            document.getElementById('pb-wrapper').style.display = 'none';
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step-loading').classList.add('active');
+    <!-- Pergunta 3 -->
+    <div class="step" id="step3">
+        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=500&q=80" class="question-img" alt="Cão se coçando">
+        <h2>Ele apresenta algum destes sintomas com frequência?</h2>
+        <div class="options-container">
+            <button class="option-btn" onclick="savePain('alergia'); nextStep(3, 'coceira')">Coceira ou lambedura excessiva</button>
+            <button class="option-btn" onclick="savePain('alergia'); nextStep(3, 'olhos')">Lágrimas ácidas (mancha nos olhos)</button>
+            <button class="option-btn" onclick="nextStep(3, 'nenhum')">Nenhum destes, ele é saudável</button>
+        </div>
+    </div>
+
+    <!-- Pergunta 4 -->
+    <div class="step" id="step4">
+        <img src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=500&q=80" class="question-img" alt="Ração vs Natural">
+        <h2>Qual a base da alimentação dele hoje?</h2>
+        <div class="options-container">
+            <button class="option-btn" onclick="nextStep(4, 'racao')">Ração Seca Industrializada</button>
+            <button class="option-btn" onclick="nextStep(4, 'mista')">Ração misturada com sachê/comida</button>
+            <button class="option-btn" onclick="nextStep(4, 'natural')">Comida caseira (sem orientação)</button>
+        </div>
+    </div>
+
+    <!-- Pergunta 5 -->
+    <div class="step" id="step5">
+        <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=500&q=80" class="question-img" alt="Cão idoso">
+        <h2>Qual seu maior desejo para o seu cão hoje?</h2>
+        <div class="options-container">
+            <button class="option-btn" onclick="savePain('vida'); runLoading()">Aumentar a longevidade (viver mais)</button>
+            <button class="option-btn" onclick="savePain('alergia'); runLoading()">Resolver problemas de pele/alergia</button>
+            <button class="option-btn" onclick="savePain('enjoado'); runLoading()">Fazer ele ter prazer em comer</button>
+        </div>
+    </div>
+
+    <!-- Tela de Loading -->
+    <div class="step" id="step-loading">
+        <div class="loading-screen">
+            <div class="spinner"></div>
+            <h2 id="loading-msg">Analisando respostas...</h2>
+            <p>Aguarde enquanto nossa IA calcula o plano nutricional ideal.</p>
+        </div>
+    </div>
+
+    <!-- Tela de Resultado -->
+    <div class="step" id="step-result">
+        <div class="result-card">
+            <div class="status-badge">⚠️ ESTADO DE ALERTA DETECTADO</div>
+            <h2 id="result-title">Análise Finalizada!</h2>
             
-            const messages = [
-                "Analisando perfil biológico...",
-                "Verificando carências nutricionais...",
-                "Calculando dieta anti-inflamatória...",
-                "Finalizando seu plano personalizado!"
-            ];
+            <p id="result-text">Identificamos que seu cão pode estar sofrendo com um processo inflamatório causado por conservantes industriais.</p>
             
-            let i = 0;
-            const interval = setInterval(() => {
-                document.getElementById('loading-text').innerText = messages[i];
+            <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid var(--secondary); margin: 20px 0;">
+                <p style="margin: 0; font-size: 0.95rem;" id="dynamic-feedback"></p>
+            </div>
+
+            <p><strong>A boa notícia:</strong> É possível reverter esse quadro em menos de 14 dias apenas substituindo ingredientes tóxicos por alimentação natural estratégica.</p>
+
+            <a href="https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N" class="cta-button" onclick="fbq('track', 'InitiateCheckout');">
+                QUERO ADQUIRIR AS RECEITAS
+            </a>
+            
+            <p class="footer-info">Você será redirecionado para a nossa página oficial de receitas seguras.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    let mainPain = 'vida'; // Default
+
+    function nextStep(step, val) {
+        document.getElementById('step' + step).classList.remove('active');
+        currentStep = step + 1;
+        document.getElementById('step' + currentStep).classList.add('active');
+        
+        // Atualiza progresso
+        let progress = (currentStep / 5) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+    }
+
+    function savePain(pain) {
+        mainPain = pain;
+    }
+
+    function runLoading() {
+        document.getElementById('progress-container').style.display = 'none';
+        document.getElementById('step5').classList.remove('active');
+        document.getElementById('step-loading').classList.add('active');
+
+        const msgs = [
+            "Calculando nutrientes por porte...",
+            "Avaliando marcadores inflamatórios...",
+            "Cruzando dados de alergias...",
+            "Gerando seu guia personalizado!"
+        ];
+
+        let i = 0;
+        const interval = setInterval(() => {
+            if(i < msgs.length) {
+                document.getElementById('loading-msg').innerText = msgs[i];
                 i++;
-                if (i >= messages.length) {
-                    clearInterval(interval);
-                    showResult();
-                }
-            }, 800);
-        }
-
-        function showResult() {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step-result').classList.add('active');
-        }
-
-        function trackCheckout() {
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'InitiateCheckout');
+            } else {
+                clearInterval(interval);
+                showResult();
             }
+        }, 1000);
+    }
+
+    function showResult() {
+        document.getElementById('step-loading').classList.remove('active');
+        document.getElementById('step-result').classList.add('active');
+
+        const feedback = document.getElementById('dynamic-feedback');
+        
+        if(mainPain === 'alergia') {
+            feedback.innerHTML = "O quadro de <b>coceiras e lágrimas ácidas</b> é um sinal claro de rejeição a corantes da ração. O seu cão precisa de uma dieta desintoxicante urgente.";
+        } else if(mainPain === 'enjoado') {
+            feedback.innerHTML = "A <b>seletividade alimentar</b> ocorre porque o instinto do cão rejeita alimentos ultraprocessados sem vida. Vamos mudar isso com receitas de alta palatabilidade.";
+        } else {
+            feedback.innerHTML = "Para garantir a <b>longevidade máxima</b>, precisamos remover os resíduos químicos que sobrecarregam os rins do seu pet diariamente.";
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
