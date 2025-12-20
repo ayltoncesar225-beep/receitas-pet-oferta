@@ -1,240 +1,314 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz Saúde Canina</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Alimentação Canina Ideal</title>
+    
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1380291333538824'); 
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1380291333538824&ev=PageView&noscript=1"
+    /></noscript>
+    <style>
+        /* ESTILO GERAL - Focado em Mobile */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<style>
-:root {
-  --green: #2e7d32;
-  --light-green: #e8f5e9;
-  --orange: #ff9800;
-  --dark: #333;
-  --gray: #777;
-}
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-* {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
-}
+        @media(min-width: 500px) {
+            .container {
+                min-height: auto;
+                border-radius: 20px;
+                padding: 40px;
+                margin: 20px;
+            }
+        }
 
-body {
-  margin: 0;
-  background: var(--light-green);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+        /* BARRA DE PROGRESSO */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            height: 8px;
+            display: none; /* Escondido na capa */
+        }
 
-.app {
-  background: #fff;
-  width: 100%;
-  max-width: 420px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  overflow: hidden;
-}
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #27ae60; /* Verde Confiança */
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
 
-.header {
-  padding: 20px;
-}
+        /* TIPOGRAFIA */
+        h1 {
+            color: #333;
+            font-size: 22px;
+            text-align: center;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
 
-.progress {
-  height: 8px;
-  background: #eee;
-  border-radius: 20px;
-  overflow: hidden;
-}
+        p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #43a047, #66bb6a);
-  transition: width 0.4s ease;
-}
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+        }
 
-.content {
-  padding: 25px;
-  animation: fade 0.4s ease;
-}
+        /* BOTÕES */
+        .btn-option {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            font-size: 16px;
+            font-weight: 600;
+            color: #444;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-h1 {
-  font-size: 22px;
-  color: var(--dark);
-}
+        .btn-option:hover, .btn-option:active {
+            border-color: #27ae60;
+            background-color: #f9fff9;
+            color: #27ae60;
+        }
 
-p {
-  color: var(--gray);
-  font-size: 15px;
-}
+        .btn-option:after {
+            content: '➔';
+            opacity: 0.5;
+        }
 
-.options {
-  margin-top: 20px;
-}
+        .btn-cta {
+            background-color: #27ae60;
+            color: white;
+            text-align: center;
+            border: none;
+            justify-content: center;
+            font-size: 18px;
+            animation: pulse 2s infinite;
+        }
+        
+        .btn-cta:after { content: ''; }
 
-button.option {
-  width: 100%;
-  padding: 15px;
-  margin-bottom: 12px;
-  border: none;
-  border-radius: 14px;
-  background: #f5f5f5;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+        /* TELA DE CARREGAMENTO */
+        .loading-screen {
+            text-align: center;
+            display: none;
+        }
 
-button.option:hover {
-  background: #e0f2f1;
-}
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #27ae60;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
 
-.loading {
-  text-align: center;
-}
+        .loading-text {
+            font-weight: bold;
+            color: #555;
+            font-size: 18px;
+        }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #eee;
-  border-top: 5px solid var(--green);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-}
+        /* ANIMAÇÕES */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        
+        .step { display: none; animation: fadeIn 0.5s; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.cta {
-  background: var(--orange);
-  color: #fff;
-  border: none;
-  width: 100%;
-  padding: 18px;
-  font-size: 18px;
-  border-radius: 16px;
-  cursor: pointer;
-  margin-top: 20px;
-  animation: pulse 1.5s infinite;
-}
-
-.cta:hover {
-  opacity: 0.9;
-}
-
-@keyframes fade {
-  from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
-}
-
-@keyframes spin {
-  to {transform: rotate(360deg);}
-}
-
-@keyframes pulse {
-  0% {box-shadow: 0 0 0 0 rgba(255,152,0,0.7);}
-  70% {box-shadow: 0 0 0 15px rgba(255,152,0,0);}
-  100% {box-shadow: 0 0 0 0 rgba(255,152,0,0);}
-}
-</style>
+        /* RODAPÉ */
+        .footer-safe {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+        .icon-lock { width: 12px; height: 12px; display: inline-block; background: #999; mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>'); -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>'); }
+    </style>
 </head>
-
 <body>
 
-<div class="app">
-  <div class="header">
-    <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
+<div class="container">
+    
+    <div class="progress-container" id="progressBarContainer">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
-  </div>
 
-  <div class="content" id="content"></div>
+    <div class="step active" id="step1">
+        <h1>Descubra o cardápio ideal para seu cão <span class="highlight">viver mais</span> 🐶</h1>
+        <p>Responda 4 perguntas rápidas e receba uma análise nutricional gratuita.</p>
+        <button class="btn-option btn-cta" onclick="nextStep(2)">COMEÇAR AGORA</button>
+        <div class="footer-safe"><span class="icon-lock"></span> Site Seguro</div>
+    </div>
+
+    <div class="step" id="step2">
+        <h1>Qual o porte do seu cachorro?</h1>
+        <button class="btn-option" onclick="nextStep(3)">Pequeno (ex: Pug, Shih Tzu)</button>
+        <button class="btn-option" onclick="nextStep(3)">Médio (ex: Bulldog, Beagle)</button>
+        <button class="btn-option" onclick="nextStep(3)">Grande (ex: Golden, Pastor)</button>
+    </div>
+
+    <div class="step" id="step3">
+        <h1>Qual a idade dele(a)?</h1>
+        <button class="btn-option" onclick="nextStep(4)">Filhote (menos de 1 ano)</button>
+        <button class="btn-option" onclick="nextStep(4)">Adulto (1 a 7 anos)</button>
+        <button class="btn-option" onclick="nextStep(4)">Idoso (mais de 7 anos)</button>
+    </div>
+
+    <div class="step" id="step4">
+        <h1>Ele apresenta algum desses problemas?</h1>
+        <p>Selecione a principal preocupação:</p>
+        <button class="btn-option" onclick="nextStep(5)">Queda excessiva de pelos</button>
+        <button class="btn-option" onclick="nextStep(5)">Coceiras ou alergias</button>
+        <button class="btn-option" onclick="nextStep(5)">Falta de apetite / Enjoado</button>
+        <button class="btn-option" onclick="nextStep(5)">Nenhum / Apenas prevenção</button>
+    </div>
+
+    <div class="step loading-screen" id="stepLoading">
+        <div class="spinner"></div>
+        <p class="loading-text" id="loadingText">Analisando perfil...</p>
+    </div>
+
+    <div class="step" id="stepResult">
+        <h1>🎉 Perfil Encontrado!</h1>
+        <p>Baseado nas suas respostas, seu cão precisa de uma <strong class="highlight">Alimentação Natural Anti-inflamatória.</strong></p>
+        
+        <p style="font-size: 14px; text-align: left; background: #f9fff9; padding: 15px; border-radius: 8px; border: 1px solid #27ae60;">
+            ✅ <strong>Resultado:</strong> A ração comum pode estar prejudicando a saúde dele. Recomendamos receitas ricas em proteínas naturais para acabar com a queda de pelos e aumentar a imunidade.
+        </p>
+
+        <p>Preparamos um Guia com 30 Receitas Exatas para o perfil dele:</p>
+        
+        <button class="btn-option btn-cta" onclick="goToCheckout()">VER CARDÁPIO AGORA</button>
+        
+        <p style="font-size: 12px; margin-top: 10px;">Oferta por tempo limitado: De R$ 97 por R$ 29,90</p>
+    </div>
+
 </div>
 
 <script>
-const content = document.getElementById("content");
-const progressBar = document.getElementById("progressBar");
+    let currentStep = 1;
+    const totalSteps = 4; // Perguntas reais
 
-let step = 0;
+    function nextStep(step) {
+        // Esconde o passo atual
+        document.querySelector('.step.active').classList.remove('active');
+        
+        if (step === 5) {
+            // Se for para o loading, inicia a lógica de IA falsa
+            startLoading();
+        } else {
+            // Mostra o próximo passo
+            document.getElementById('step' + step).classList.add('active');
+            updateProgressBar(step);
+        }
+    }
 
-const steps = [
-  {
-    question: "Qual é o porte ou raça do seu cachorro?",
-    options: ["Pequeno porte", "Médio porte", "Grande porte", "Não sei ao certo"]
-  },
-  {
-    question: "Qual é a alimentação principal dele hoje?",
-    options: ["Ração comum de mercado", "Ração premium", "Mistura de ração e comida caseira", "Comida totalmente natural"]
-  },
-  {
-    question: "Seu cachorro sofre com algum desses problemas?",
-    options: ["Queda excessiva de pelo", "Coceira constante", "Pele vermelha ou feridas", "Vários desses sintomas"]
-  },
-  {
-    question: "Com que frequência esses sintomas aparecem?",
-    options: ["Quase nunca", "De vez em quando", "Com bastante frequência", "Praticamente todos os dias"]
-  }
-];
+    function updateProgressBar(step) {
+        const container = document.getElementById('progressBarContainer');
+        const bar = document.getElementById('progressBar');
+        
+        if (step > 1 && step < 5) {
+            container.style.display = 'block';
+            let percentage = ((step - 1) / totalSteps) * 100;
+            bar.style.width = percentage + '%';
+        } else {
+            container.style.display = 'none';
+        }
+    }
 
-function renderStep() {
-  progressBar.style.width = ((step) / steps.length) * 100 + "%";
+    function startLoading() {
+        document.getElementById('stepLoading').classList.add('active');
+        
+        const texts = [
+            "Analisando porte e idade...",
+            "Calculando nutrientes necessários...",
+            "Verificando alergias...",
+            "Gerando cardápio personalizado..."
+        ];
+        
+        let i = 0;
+        const textElement = document.getElementById('loadingText');
+        
+        const interval = setInterval(() => {
+            textElement.innerText = texts[i];
+            i++;
+            if (i >= texts.length) {
+                clearInterval(interval);
+                showResult();
+            }
+        }, 800); // Troca o texto a cada 0.8 segundos
+    }
 
-  const q = steps[step];
-  content.innerHTML = `
-    <h1>${q.question}</h1>
-    <div class="options">
-      ${q.options.map(opt => `<button class="option" onclick="next()">${opt}</button>`).join("")}
-    </div>
-  `;
-}
+    function showResult() {
+        document.getElementById('stepLoading').classList.remove('active');
+        document.getElementById('stepResult').classList.add('active');
+    }
 
-function next() {
-  step++;
-  if (step < steps.length) {
-    renderStep();
-  } else {
-    showLoading();
-  }
-}
-
-function showLoading() {
-  progressBar.style.width = "100%";
-  content.innerHTML = `
-    <div class="loading">
-      <h1>Analisando as respostas...</h1>
-      <div class="spinner"></div>
-      <p>Verificando sinais de inflamação...</p>
-      <p>Analisando impacto da alimentação...</p>
-      <p>Cruzando dados de saúde da pele e do pelo...</p>
-    </div>
-  `;
-
-  setTimeout(showResult, 3000);
-}
-
-function showResult() {
-  content.innerHTML = `
-    <h1>⚠️ Diagnóstico de Alerta</h1>
-    <p>
-      Os sinais indicam que a <strong>alimentação atual do seu cão pode estar causando
-      inflamações, alergias e queda excessiva de pelo</strong>.
-    </p>
-    <p>
-      Muitas rações industrializadas contêm corantes, conservantes e ingredientes que
-      prejudicam a pele e o pelo do seu cachorro.
-    </p>
-    <p>
-      A boa notícia é que <strong>receitas naturais específicas</strong> podem ajudar a
-      restaurar a saúde, reduzir a coceira e devolver o brilho do pelo.
-    </p>
-
-    <button class="cta" onclick="window.location.href='https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N'">
-      Quero salvar a saúde do meu cão agora 🐶
-    </button>
-  `;
-}
-
-renderStep();
+    function goToCheckout() {
+        // Dispara o evento de InitiateCheckout para o Pixel ID 1380291333538824
+        fbq('track', 'InitiateCheckout'); 
+        
+        // Pequeno delay para garantir que o Pixel marcou antes de sair da página
+        setTimeout(function(){
+            window.location.href = "https://pay.kiwify.com.br/ggOr7uL?afid=60zChN8N"; 
+        }, 300);
+    }
 </script>
 
 </body>
 </html>
+
